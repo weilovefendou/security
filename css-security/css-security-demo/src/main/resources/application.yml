@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/spring-security?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: 123456
+  session:
+    store-type: none
+########自定义登录页面#########
+#css:
+#  security:
+#    browser:
+#      loginPage: /demo_login.html
+#      loginType: JSON
+#############自定义图形验证码#################
+css:
+  security:
+    code:
+      image:
+        length: 6
+        width: 120
+        url: /user,/user/*
+
