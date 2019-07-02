@@ -8,4 +8,5 @@ import java.lang.ref.PhantomReference;
 public class BrowserProperties {
     private String loginPage = "/default_login.html";
     private LoginType loginType = LoginType.JSON;
+    private int rememberMeSeconds = 3600;
 }

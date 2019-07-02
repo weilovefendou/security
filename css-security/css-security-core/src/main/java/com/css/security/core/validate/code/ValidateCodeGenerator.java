@@ -1,7 +1,16 @@
+/**
+ * 
+ */
 package com.css.security.core.validate.code;
 
 import org.springframework.web.context.request.ServletWebRequest;
 
+/**
+ * @author zhailiang
+ *
+ */
 public interface ValidateCodeGenerator {
-    ImageCode generator(ServletWebRequest request);
+
+	ValidateCode generate(ServletWebRequest request);
+	
 }

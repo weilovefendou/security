@@ -13,11 +13,11 @@ spring:
 #      loginPage: /demo_login.html
 #      loginType: JSON
 #############自定义图形验证码#################
-css:
-  security:
-    code:
-      image:
-        length: 6
-        width: 120
-        url: /user,/user/*
+#css:
+#  security:
+#    code:
+#      image:
+#        length: 6
+#        width: 120
+#        url: /user,/user/*
 

@@ -12,9 +12,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 /**
  * 浏览器环境下安全配置主类
@@ -34,6 +39,13 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private CssAuthenticationFailureHandler cssAuthenticationFailureHandler;
 
+	@Autowired
+	private DataSource dataSource;
+
+	@Autowired
+	private UserDetailsService userDetailsService;
+
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
@@ -48,6 +60,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginProcessingUrl("/authentication/form")//告诉security过滤器（usernamepasswordfilter），校验这个路径传过来的表单信息
 				.successHandler(cssAuthenticationSuccessHandler)
 				.failureHandler(cssAuthenticationFailureHandler)
+				.and()
+				.rememberMe()
+				.tokenRepository(persistentTokenRepository())
+				.tokenValiditySeconds(secutiryProperties.getBrowser().getRememberMeSeconds())
+				.userDetailsService(userDetailsService)
 				.and()
 				.authorizeRequests()
 				.antMatchers("/authentication/require",secutiryProperties.getBrowser().getLoginPage(),"/code/image").permitAll()
@@ -64,4 +81,13 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+
+	@Bean
+	public PersistentTokenRepository persistentTokenRepository(){
+
+		JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+		tokenRepository.setDataSource(dataSource);
+//		tokenRepository.setCreateTableOnStartup(true);
+		return tokenRepository;
+	}
 }
