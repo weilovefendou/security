@@ -1,0 +1,29 @@
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  mapper-locations: classpath*:mapper/*.xml
+
+spring:
+  datasource:
+    name: lovehouses
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      username: root
+      password: 123456
+      url: jdbc:mysql://localhost:3306/houses?useSSL=false&serverTimezone=GMT%2B8
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      max-active: 30
+      min-idle: 5
+      max-wait: 10000
+      validation-query: select 'x'
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+
+
+  freemarker:
+    charset: utf-8
+    content-type: text/html;charset=UTF-8
+    expose-request-attributes: true
+    expose-session-attributes: true
+    expose-spring-macro-helpers: true
+    suffix: .ftl
